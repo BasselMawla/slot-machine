@@ -48,7 +48,6 @@ const reelsList = [];
 
 for (let i = 0; i < 3; i++) {
   const reel = new PIXI.Container();
-  //reel.anchor.set(0.5);
 
   // Set x coordinate of reelContainer based on i
   switch (i) {
@@ -63,13 +62,8 @@ for (let i = 0; i < 3; i++) {
       break;
   }
 
-  //const reel = {
-  //  container: reelContainer,
-  //  children: [],
-  //};
-
   // 3 symbols in each reel
-  symbolTextures.sort((a, b) => 0.5 - Math.random()); // Shuffle the textures#
+  symbolTextures.sort((a, b) => 0.5 - Math.random()); // Shuffle the symbol textures
   for (let j = 0; j < symbolTextures.length; j++) {
     const symbol = new PIXI.Sprite(symbolTextures[j]);
     symbol.anchor.set(0.5);
@@ -88,8 +82,22 @@ for (let i = 0; i < 3; i++) {
         break;
     }
   }
+
+  // Hide the reel sections outside the visible reel window
+  const reelBounds = new PIXI.Graphics();
+  reelBounds.beginFill();
+  reelBounds.drawRect(
+    reel.x - reel.width / 2,
+    reel.y - reel.height / 2 + 101,
+    reel.width,
+    reel.height - 124
+  );
+  reelBounds.endFill();
+  reel.mask = reelBounds;
+
   reelsList.push(reel);
   slotMachine.addChild(reel);
+  slotMachine.addChild(reelBounds);
 }
 
 app.stage.addChild(slotMachine);
@@ -101,6 +109,7 @@ app.stage.addChild(slotMachine);
   Add selectable stake
   Add current funds
   Make funds lose stake and gain rewards
+  --DONE-- Mask edge symbols
 
   Add spin animations
   Add handle animation
