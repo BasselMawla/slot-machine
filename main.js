@@ -13,11 +13,11 @@ await PIXI.Assets.load([
   "sprites/slot-symbol3.png",
 ]);
 
-const symbolTextures = {
-  symbol1: PIXI.Texture.from("sprites/slot-symbol1.png"),
-  symbol2: PIXI.Texture.from("sprites/slot-symbol2.png"),
-  symbol3: PIXI.Texture.from("sprites/slot-symbol3.png"),
-};
+const symbolTextures = [
+  PIXI.Texture.from("sprites/slot-symbol1.png"),
+  PIXI.Texture.from("sprites/slot-symbol2.png"),
+  PIXI.Texture.from("sprites/slot-symbol3.png"),
+];
 
 document.body.appendChild(app.view);
 
@@ -69,16 +69,14 @@ for (let i = 0; i < 3; i++) {
   //};
 
   // 3 symbols in each reel
-  let index = 0;
-  for (const texture of Object.values(symbolTextures)) {
-    const symbol = new PIXI.Sprite(texture);
+  symbolTextures.sort((a, b) => 0.5 - Math.random()); // Shuffle the textures#
+  for (let j = 0; j < symbolTextures.length; j++) {
+    const symbol = new PIXI.Sprite(symbolTextures[j]);
     symbol.anchor.set(0.5);
     reel.addChild(symbol);
-    //reel.children.push(symbol);
-    console.log(symbol.height);
 
-    // Set y coordinate of the symbol based on index
-    switch (index) {
+    // Set y coordinate of the symbol based on j
+    switch (j) {
       case 0:
         symbol.y = symbolCoords.yTop;
         break;
@@ -89,11 +87,9 @@ for (let i = 0; i < 3; i++) {
         symbol.y = symbolCoords.yBottom;
         break;
     }
-
-    reelsList.push(reel);
-    slotMachine.addChild(reel);
-    index++;
   }
+  reelsList.push(reel);
+  slotMachine.addChild(reel);
 }
 
 app.stage.addChild(slotMachine);
