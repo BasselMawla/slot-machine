@@ -93,3 +93,15 @@ for (let i = 0; i < 3; i++) {
 }
 
 app.stage.addChild(slotMachine);
+
+/* TODO:
+  Add handle and draw it
+  Make handle clickable
+  Spin the reels when handle is clicked without animation
+  Add selectable stake
+  Add current funds
+  Make funds lose stake and gain rewards
+
+  Add spin animations
+  Add handle animation
+*/
