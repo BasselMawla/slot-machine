@@ -2,23 +2,19 @@ import * as PIXI from "./pixi.mjs";
 import Reel from "./reel.js";
 import Coords from "./coords.js";
 import Textures from "./textures.js";
+import Lever from "./lever.js";
 
 const app = new PIXI.Application({
   backgroundColor: 0x1099bb,
   width: window.innerWidth,
   height: window.innerHeight,
 });
-
-await PIXI.Assets.load([
-  "sprites/slot-machine1.png",
-  "sprites/slot-symbol1.png",
-  "sprites/slot-symbol2.png",
-  "sprites/slot-symbol3.png",
-]);
-
 document.body.appendChild(app.view);
 
-const slotMachine = PIXI.Sprite.from("sprites/slot-machine1.png");
+await Textures.loadTextures();
+
+// Set up the background slot machine sprite
+const slotMachine = new PIXI.Sprite(Textures.slotMachine);
 slotMachine.anchor.set(0.5);
 slotMachine.x = app.screen.width / 2;
 slotMachine.y = app.screen.height / 2;
@@ -28,30 +24,40 @@ slotMachine.scale.set(
     app.screen.height / slotMachine.texture.height
   )
 );
+app.stage.addChild(slotMachine);
+
+const lever = new Lever();
+slotMachine.addChild(lever);
+
+lever.eventMode = "static";
+lever.on("pointerdown", (event) => {
+  lever.toggleLever();
+  spinMachine();
+});
 
 // Create the three reels
 const reelsList = [
-  new Reel(Coords.reelCoords.xLeft, Textures.shuffledSymbols(), slotMachine),
-  new Reel(Coords.reelCoords.xMiddle, Textures.shuffledSymbols(), slotMachine),
-  new Reel(Coords.reelCoords.xRight, Textures.shuffledSymbols(), slotMachine),
+  new Reel(Coords.reelCoords.xLeft, slotMachine),
+  new Reel(Coords.reelCoords.xMiddle, slotMachine),
+  new Reel(Coords.reelCoords.xRight, slotMachine),
 ];
 
-reelsList.forEach((reel) => {
-  slotMachine.addChild(reel);
-});
-
-app.stage.addChild(slotMachine);
+function spinMachine() {
+  reelsList.forEach((reel) => {
+    reel.spinReel();
+  });
+}
 
 /* TODO:
-  Add handle and draw it
-  Make handle clickable
+  Add lever and draw it
+  Make lever clickable
   on-click run buildSymbols again for each reel
-  Spin the reels when handle is clicked without animation
+  Spin the reels when lever is clicked without animation
   Add selectable stake
   Add current funds
   Make funds lose stake and gain rewards
   --DONE-- Mask edge symbols
 
   Add spin animations
-  Add handle animation
+  Add lever animation
 */

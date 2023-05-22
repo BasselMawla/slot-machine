@@ -11,5 +11,5 @@ export default class coords {
     yBottom: 163,
   };
 
-  static handleCoords = {};
+  static leverCoords = {};
 }

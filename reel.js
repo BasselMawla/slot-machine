@@ -1,19 +1,41 @@
 import * as PIXI from "./pixi.mjs";
 import Coords from "./coords.js";
+import Textures from "./textures.js";
 
 export default class Reel extends PIXI.Container {
-  constructor(xCoord, symbolTextures, parent) {
+  symbols = [];
+
+  /* xCoord: x coordinate of the reel
+     symbolTextures: array of the textures of the 3 symbols in the reel
+     parent: parent to which to attach this reel
+  */
+  constructor(xCoord, parent) {
     super();
     this.x = xCoord;
 
-    this.buildSymbols(symbolTextures);
-    this.addMask(parent);
+    this.buildSymbols(Textures.shuffledSymbols());
+
+    const reelBounds = this.createReelMask();
+    this.mask = reelBounds;
+
+    parent.addChild(reelBounds);
+    parent.addChild(this);
   }
 
-  // Add a mask to the reel to hide the sections outside the visible reel window
-  addMask(parent) {
+  // Add the three symbols to the reel
+  buildSymbols(symbolTextures) {
+    for (let i = 0; i < symbolTextures.length; i++) {
+      const symbol = new PIXI.Sprite(symbolTextures[i]);
+      symbol.anchor.set(0.5);
+      this.addChild(symbol);
+    }
+
+    this.setSymbolsYCoords(this.children);
+  }
+
+  // Create a mask for the reel to hide the sections outside the visible reel window
+  createReelMask() {
     const reelBounds = new PIXI.Graphics();
-    // TODO: Figure out why beginFill works with any params
     reelBounds.beginFill();
     reelBounds.drawRect(
       this.x - this.width / 2,
@@ -23,16 +45,23 @@ export default class Reel extends PIXI.Container {
     );
     reelBounds.endFill();
 
-    this.mask = reelBounds;
-    parent.addChild(reelBounds);
+    return reelBounds;
   }
 
-  // Add the three symbols to the reel
-  buildSymbols(symbolTextures) {
-    for (let i = 0; i < symbolTextures.length; i++) {
-      const symbol = new PIXI.Sprite(symbolTextures[i]);
-      symbol.anchor.set(0.5);
-      this.addChild(symbol);
+  spinReel() {
+    this.swapChildren(
+      this.getChildAt(Math.floor(Math.random() * 3)),
+      this.getChildAt(Math.floor(Math.random() * 3))
+    );
+
+    //this.updateTransform();
+    this.setSymbolsYCoords(this.children);
+  }
+
+  // Set the symbols position depending on where they should appear
+  setSymbolsYCoords(symbolSprites) {
+    for (let i = 0; i < symbolSprites.length; i++) {
+      const symbol = symbolSprites[i];
 
       // Set y coordinate of the symbol based on i
       switch (i) {
