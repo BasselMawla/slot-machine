@@ -26,6 +26,13 @@ slotMachine.scale.set(
 );
 app.stage.addChild(slotMachine);
 
+// Create the three reels
+const reelsList = [
+  new Reel(Coords.reelCoords.xLeft, slotMachine),
+  new Reel(Coords.reelCoords.xMiddle, slotMachine),
+  new Reel(Coords.reelCoords.xRight, slotMachine),
+];
+
 const lever = new Lever();
 slotMachine.addChild(lever);
 
@@ -35,14 +42,35 @@ lever.on("pointerdown", (event) => {
   spinMachine();
 });
 
-// Create the three reels
-const reelsList = [
-  new Reel(Coords.reelCoords.xLeft, slotMachine),
-  new Reel(Coords.reelCoords.xMiddle, slotMachine),
-  new Reel(Coords.reelCoords.xRight, slotMachine),
-];
+async function spinMachine() {
+  const apiResponse = await fetch("http://localhost:8888/serve", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/xml",
+    },
+    body: '<Request balance="100.00" stake="1.20" />',
+  });
 
-function spinMachine() {
+  const xmlResponse = await apiResponse.text();
+  // TODO: error check here
+  const parsedResponse = new DOMParser().parseFromString(
+    xmlResponse,
+    "text/xml"
+  );
+  const result = parsedResponse.getElementsByTagName("Response")[0];
+  const newBalance = result.getAttribute("balance");
+  const winnings = result.getAttribute("win");
+
+  const gridList = result.getElementsByTagName("SymbolGrid");
+  const newOrderList = [];
+  for (let i = 0; i < gridList.length; i++) {
+    const orderString = gridList[i].getAttribute("symbols");
+    const orderArray = orderString.split(",").map(Number);
+    newOrderList.push(orderArray);
+  }
+  // TODO: Reorder the symbols in each reel to match the newOrderList order
+  // TODO: Add stakes and get new balance and results from XML too
+
   reelsList.forEach((reel) => {
     reel.spinReel();
   });
