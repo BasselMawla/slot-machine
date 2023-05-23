@@ -1,7 +1,7 @@
 import * as PIXI from "./pixi.mjs";
 
 export default class Textures {
-  static symbolTextures;
+  static symbols;
   static slotMachineTexture;
 
   static async loadTextures() {
@@ -19,6 +19,6 @@ export default class Textures {
   }
 
   static shuffledSymbols() {
-    return Textures.symbols.sort((a, b) => 0.5 - Math.random());
+    return Textures.symbols; //Textures.symbols.sort((a, b) => 0.5 - Math.random());
   }
 }

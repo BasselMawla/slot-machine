@@ -62,11 +62,14 @@ async function spinMachine() {
   const winnings = result.getAttribute("win");
 
   const gridList = result.getElementsByTagName("SymbolGrid");
-  const newOrderList = [];
+  //const newSymbolOrder = [];
   for (let i = 0; i < gridList.length; i++) {
-    const orderString = gridList[i].getAttribute("symbols");
-    const orderArray = orderString.split(",").map(Number);
-    newOrderList.push(orderArray);
+    const reelOrderString = gridList[i].getAttribute("symbols");
+    const reelOrderArray = reelOrderString.split(",").map(Number);
+    console.log(reelOrderArray);
+    reelsList[i].reorder(reelOrderArray);
+
+    //newSymbolOrder.push(reelOrderArray);
   }
   // TODO: Reorder the symbols in each reel to match the newOrderList order
   // TODO: Add stakes and get new balance and results from XML too
@@ -77,10 +80,10 @@ async function spinMachine() {
 }
 
 /* TODO:
-  Add lever and draw it
-  Make lever clickable
-  on-click run buildSymbols again for each reel
-  Spin the reels when lever is clicked without animation
+  --DONE-- Add lever and draw it
+  --DONE-- Make lever clickable
+  Make only the lever clickable, not the whole screen
+  --DONE-- Spin the reels when lever is clicked without animation
   Add selectable stake
   Add current funds
   Make funds lose stake and gain rewards

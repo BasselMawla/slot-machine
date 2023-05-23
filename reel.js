@@ -27,6 +27,7 @@ export default class Reel extends PIXI.Container {
     for (let i = 0; i < symbolTextures.length; i++) {
       const symbol = new PIXI.Sprite(symbolTextures[i]);
       symbol.anchor.set(0.5);
+      this.symbols.push(symbol);
       this.addChild(symbol);
     }
 
@@ -46,6 +47,12 @@ export default class Reel extends PIXI.Container {
     reelBounds.endFill();
 
     return reelBounds;
+  }
+
+  reorder(reelOrderArray) {
+    for (let i = 0; i < 3; i++) {
+      this.symbols[i].texture = Textures.symbols[reelOrderArray[i]];
+    }
   }
 
   spinReel() {
