@@ -13,6 +13,9 @@ document.body.appendChild(app.view);
 
 await Textures.loadTextures();
 
+let balance = 100;
+let stake = 5;
+
 // Set up the background slot machine sprite
 const slotMachine = new PIXI.Sprite(Textures.slotMachine);
 slotMachine.anchor.set(0.5);
@@ -49,12 +52,17 @@ async function spinMachine() {
       headers: {
         "Content-Type": "application/xml",
       },
-      body: '<Request balance="100.00" stake="1.20" />',
+      body: '<Request balance="' + balance + '" stake="' + stake + '" />',
     });
 
     const xmlResponse = await apiResponse.text();
+    // Not proper XML, an error occured
+    if (xmlResponse.charAt(0) != "<") {
+      throw "An error occured! Your stake was refunded. Please try again.";
+    }
     handleSpinResult(xmlResponse);
   } catch (err) {
+    console.log();
     console.log(err);
   }
 
@@ -68,8 +76,16 @@ function handleSpinResult(xmlResponse) {
   try {
     parsedResponse = new DOMParser().parseFromString(xmlResponse, "text/xml");
     const result = parsedResponse.getElementsByTagName("Response")[0];
-    const newBalance = result.getAttribute("balance");
+
+    balance = result.getAttribute("balance");
     const winnings = result.getAttribute("win");
+
+    console.log();
+    console.log("You bet: £" + stake);
+    if (winnings > 0) {
+      console.log("Congratulations! You won £" + winnings + "!");
+    }
+    console.log("Your new balance is: £" + balance);
 
     const gridList = result.getElementsByTagName("SymbolGrid");
     for (let i = 0; i < gridList.length; i++) {
@@ -77,23 +93,22 @@ function handleSpinResult(xmlResponse) {
       const reelOrderArray = reelOrderString.split(",").map(Number);
       reelsList[i].reorder(reelOrderArray);
     }
-    // TODO: Add stakes and get new balance and results from XML too
   } catch (err) {
     // TODO: Show this on the screen
-    console.log("An error occured! Your stake was refunded. Please try again.");
+    console.log(err);
+    //console.log("An error occured! Your stake was refunded. Please try again.");
   }
 }
 
 /* TODO:
-  --DONE-- Add lever and draw it
-  --DONE-- Make lever clickable
-  Make only the lever clickable, not the whole screen
-  --DONE-- Spin the reels when lever is clicked without animation
+  Add lever animation
+
   Add selectable stake
-  Add current funds
-  Make funds lose stake and gain rewards
-  --DONE-- Mask edge symbols
+    Add buttons such as +1 +5 +10 +50 and Reset
+  Show current funds
 
   Add spin animations
-  Add lever animation
+
+  Make only the lever clickable, not the whole screen
+  More error checking
 */
