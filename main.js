@@ -43,48 +43,45 @@ lever.on("pointerdown", (event) => {
 });
 
 async function spinMachine() {
-  const apiResponse = await fetch("http://localhost:8888/serve", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/xml",
-    },
-    body: '<Request balance="100.00" stake="1.20" />',
-  });
-
-  let xmlResponse;
   try {
-    xmlResponse = await apiResponse.text();
-    console.log(xmlResponse);
+    const apiResponse = await fetch("http://localhost:8888/serve", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/xml",
+      },
+      body: '<Request balance="100.00" stake="1.20" />',
+    });
+
+    const xmlResponse = await apiResponse.text();
+    handleSpinResult(xmlResponse);
   } catch (err) {
     console.log(err);
-  } finally {
   }
-
-  // TODO: error check here
-  const parsedResponse = new DOMParser().parseFromString(
-    xmlResponse,
-    "text/xml"
-  );
-  const result = parsedResponse.getElementsByTagName("Response")[0];
-  const newBalance = result.getAttribute("balance");
-  const winnings = result.getAttribute("win");
-
-  const gridList = result.getElementsByTagName("SymbolGrid");
-  //const newSymbolOrder = [];
-  for (let i = 0; i < gridList.length; i++) {
-    const reelOrderString = gridList[i].getAttribute("symbols");
-    const reelOrderArray = reelOrderString.split(",").map(Number);
-    console.log(reelOrderArray);
-    reelsList[i].reorder(reelOrderArray);
-
-    //newSymbolOrder.push(reelOrderArray);
-  }
-  // TODO: Reorder the symbols in each reel to match the newOrderList order
-  // TODO: Add stakes and get new balance and results from XML too
 
   reelsList.forEach((reel) => {
     reel.spinReel();
   });
+}
+
+function handleSpinResult(xmlResponse) {
+  let parsedResponse;
+  try {
+    parsedResponse = new DOMParser().parseFromString(xmlResponse, "text/xml");
+    const result = parsedResponse.getElementsByTagName("Response")[0];
+    const newBalance = result.getAttribute("balance");
+    const winnings = result.getAttribute("win");
+
+    const gridList = result.getElementsByTagName("SymbolGrid");
+    for (let i = 0; i < gridList.length; i++) {
+      const reelOrderString = gridList[i].getAttribute("symbols");
+      const reelOrderArray = reelOrderString.split(",").map(Number);
+      reelsList[i].reorder(reelOrderArray);
+    }
+    // TODO: Add stakes and get new balance and results from XML too
+  } catch (err) {
+    // TODO: Show this on the screen
+    console.log("An error occured! Your stake was refunded. Please try again.");
+  }
 }
 
 /* TODO:
