@@ -51,7 +51,15 @@ async function spinMachine() {
     body: '<Request balance="100.00" stake="1.20" />',
   });
 
-  const xmlResponse = await apiResponse.text();
+  let xmlResponse;
+  try {
+    xmlResponse = await apiResponse.text();
+    console.log(xmlResponse);
+  } catch (err) {
+    console.log(err);
+  } finally {
+  }
+
   // TODO: error check here
   const parsedResponse = new DOMParser().parseFromString(
     xmlResponse,
