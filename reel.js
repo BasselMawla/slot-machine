@@ -55,15 +55,14 @@ export default class Reel extends PIXI.Container {
     }
   }
 
-  spinReel() {
+  /*spinReel() {
     this.swapChildren(
       this.getChildAt(Math.floor(Math.random() * 3)),
       this.getChildAt(Math.floor(Math.random() * 3))
     );
 
-    //this.updateTransform();
     this.setSymbolsYCoords(this.children);
-  }
+  }*/
 
   // Set the symbols position depending on where they should appear
   setSymbolsYCoords(symbolSprites) {

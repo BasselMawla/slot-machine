@@ -41,7 +41,6 @@ slotMachine.addChild(lever);
 
 lever.eventMode = "static";
 lever.on("pointerdown", (event) => {
-  lever.toggleLever();
   spinMachine();
 });
 
@@ -60,15 +59,16 @@ async function spinMachine() {
     if (xmlResponse.charAt(0) != "<") {
       throw "An error occured! Your stake was refunded. Please try again.";
     }
+    lever.toggleLever();
     handleSpinResult(xmlResponse);
   } catch (err) {
     console.log();
     console.log(err);
   }
 
-  reelsList.forEach((reel) => {
+  /*reelsList.forEach((reel) => {
     reel.spinReel();
-  });
+  });*/
 }
 
 function handleSpinResult(xmlResponse) {
