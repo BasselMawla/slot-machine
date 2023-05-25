@@ -11,6 +11,4 @@ export default class Coords {
     yMiddle: -75 + Coords.symbolDiff,
     yBottom: -75 + Coords.symbolDiff * 2,
   };
-
-  static leverCoords = {};
 }

@@ -1,4 +1,4 @@
-import * as PIXI from "../pixi.mjs";
+import * as PIXI from "../pixi.min.mjs";
 import Coords from "../helpers/coords.js";
 import Textures from "../helpers/textures.js";
 
@@ -40,9 +40,9 @@ export default class Reel extends PIXI.Container {
     reelBounds.beginFill(0, 1);
     reelBounds.drawRect(
       this.x - this.width / 2,
-      this.y - this.height / 2 + Coords.symbolDiff * 1.35,
+      this.y - this.height / 2 + Textures.symbols[0].height + 1,
       this.width,
-      this.height - 2 * Coords.symbolDiff - 2
+      this.height - Textures.symbols[0].height * 1.2 - 1
     );
     reelBounds.endFill();
 

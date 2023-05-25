@@ -1,5 +1,3 @@
-import * as PIXI from "../pixi.mjs";
-
 // Create sound effects using the howler.js library
 export default class Sounds {
   static leverPull;

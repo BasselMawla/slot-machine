@@ -1,4 +1,4 @@
-import * as PIXI from "../pixi.mjs";
+import * as PIXI from "../pixi.min.mjs";
 
 export default class Textures {
   static symbols;

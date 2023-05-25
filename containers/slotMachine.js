@@ -1,4 +1,4 @@
-import * as PIXI from "../pixi.mjs";
+import * as PIXI from "../pixi.min.mjs";
 import Textures from "../helpers/textures.js";
 import Sounds from "../helpers/sounds.js";
 import Lever from "./lever.js";
