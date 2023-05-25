@@ -4,6 +4,7 @@ import Coords from "./helpers/coords.js";
 import Textures from "./helpers/textures.js";
 import Lever from "./containers/lever.js";
 import TextHandler from "./helpers/textHandler.js";
+import SlotMachine from "./containers/slotMachine.js";
 
 const app = new PIXI.Application({
   backgroundColor: 0x1099bb,
@@ -21,30 +22,21 @@ let stake = 20;
 let isSpinning = false;
 
 // Set up the slot machine sprite
-const slotMachine = new PIXI.Sprite(Textures.slotMachine);
-slotMachine.anchor.set(0.5);
-slotMachine.x = app.screen.width / 2;
-slotMachine.y = app.screen.height / 2;
-slotMachine.scale.set(
-  Math.min(
-    app.screen.width / slotMachine.texture.width,
-    app.screen.height / slotMachine.texture.height
-  )
-);
+const slotMachine = new SlotMachine(app.screen.width, app.screen.height);
 app.stage.addChild(slotMachine);
 
 // Create the three reels
 const reelsList = [
-  new Reel(Coords.reelCoords.xLeft, slotMachine),
-  new Reel(Coords.reelCoords.xMiddle, slotMachine),
-  new Reel(Coords.reelCoords.xRight, slotMachine),
+  new Reel(Coords.reelCoords.xLeft, slotMachine.sprite),
+  new Reel(Coords.reelCoords.xMiddle, slotMachine.sprite),
+  new Reel(Coords.reelCoords.xRight, slotMachine.sprite),
 ];
 
 TextHandler.init(balance);
 app.stage.addChild(TextHandler.balanceText);
 
 const lever = new Lever();
-slotMachine.addChild(lever);
+slotMachine.sprite.addChild(lever);
 
 lever.on("pointerdown", (event) => {
   if (Lever.elapsedTime == 0) {

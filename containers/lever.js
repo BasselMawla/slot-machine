@@ -3,7 +3,7 @@ import Textures from "../helpers/textures.js";
 import app from "../main.js";
 
 export default class Lever extends PIXI.Container {
-  leverSprite;
+  sprite;
   extraFrameSprites;
   isPulled;
   hitAreaCircle;
@@ -16,11 +16,11 @@ export default class Lever extends PIXI.Container {
 
     this.isPulled = false;
 
-    this.leverSprite = new PIXI.Sprite(Textures.lever.initial);
-    this.leverSprite.anchor.set(0.5);
+    this.sprite = new PIXI.Sprite(Textures.lever.initial);
+    this.sprite.anchor.set(0.5);
     // Make only the red handle of the lever interactable
     this.hitArea = new PIXI.Circle(311, 30, 48);
-    this.addChild(this.leverSprite);
+    this.addChild(this.sprite);
 
     this.eventMode = "static";
     this.cursor = "pointer";
@@ -42,7 +42,7 @@ export default class Lever extends PIXI.Container {
   // Start pulling the lever and show extra frame
   pullLever() {
     this.showExtraFrame();
-    this.leverSprite.texture = Textures.lever.pulled;
+    this.sprite.texture = Textures.lever.pulled;
     app.ticker.add(Lever.animateLever, this);
   }
 
@@ -50,14 +50,14 @@ export default class Lever extends PIXI.Container {
     for (let i = 0; i < this.extraFrameSprites.length; i++) {
       this.extraFrameSprites[i].visible = true;
     }
-    this.leverSprite.visible = false;
+    this.sprite.visible = false;
   }
 
   hideExtraFrame() {
     for (let i = 0; i < this.extraFrameSprites.length; i++) {
       this.extraFrameSprites[i].visible = false;
     }
-    this.leverSprite.visible = true;
+    this.sprite.visible = true;
   }
 
   // Animate the lever being pulled and returning to its initial position
@@ -72,7 +72,7 @@ export default class Lever extends PIXI.Container {
     // Lever is returning. Show extra frame.
     else if (Lever.elapsedTime > Lever.animTime) {
       this.showExtraFrame();
-      this.leverSprite.texture = Textures.lever.initial;
+      this.sprite.texture = Textures.lever.initial;
     }
     // Lever is now pulled. Hide extra frame.
     else if (Lever.elapsedTime > Lever.extraFrameTime) {
