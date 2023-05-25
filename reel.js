@@ -14,7 +14,7 @@ export default class Reel extends PIXI.Container {
     this.x = xCoord;
     this.interactiveChildren = false;
 
-    this.buildSymbols(Textures.shuffledSymbols());
+    this.buildSymbols(Textures.symbols);
 
     const reelBounds = this.createReelMask();
     this.mask = reelBounds;
