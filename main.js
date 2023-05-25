@@ -3,6 +3,7 @@ import Reel from "./reel.js";
 import Coords from "./coords.js";
 import Textures from "./textures.js";
 import Lever from "./lever.js";
+import TextHandler from "./textHandler.js";
 
 const app = new PIXI.Application({
   backgroundColor: 0x1099bb,
@@ -19,7 +20,7 @@ let balance = 100;
 let stake = 5;
 let isSpinning = false;
 
-// Set up the background slot machine sprite
+// Set up the slot machine sprite
 const slotMachine = new PIXI.Sprite(Textures.slotMachine);
 slotMachine.anchor.set(0.5);
 slotMachine.x = app.screen.width / 2;
@@ -38,6 +39,9 @@ const reelsList = [
   new Reel(Coords.reelCoords.xMiddle, slotMachine),
   new Reel(Coords.reelCoords.xRight, slotMachine),
 ];
+
+TextHandler.init(balance);
+app.stage.addChild(TextHandler.balanceText);
 
 const lever = new Lever();
 slotMachine.addChild(lever);
@@ -70,6 +74,7 @@ async function spinMachine() {
     const xmlResponse = await apiResponse.text();
     // Not proper XML, an error occured
     if (xmlResponse.charAt(0) != "<") {
+      // TODO: Show this on the screen
       throw "An error occured! Your stake was refunded. Please try again.";
     }
     lever.pullLever();
@@ -95,6 +100,7 @@ function handleSpinResult(xmlResponse) {
       console.log("Congratulations! You won £" + winnings + "!");
     }
     console.log("Your new balance is: £" + balance);
+    TextHandler.updateBalance(balance);
 
     const gridList = result.getElementsByTagName("SymbolGrid");
     for (let i = 0; i < gridList.length; i++) {
@@ -103,9 +109,7 @@ function handleSpinResult(xmlResponse) {
       reelsList[i].reorder(reelOrderArray);
     }
   } catch (err) {
-    // TODO: Show this on the screen
     console.log(err);
-    //console.log("An error occured! Your stake was refunded. Please try again.");
   }
 }
 
