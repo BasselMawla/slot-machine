@@ -1,10 +1,11 @@
 import * as PIXI from "./pixi.mjs";
-import Reel from "./containers/reel.js";
-import Coords from "./helpers/coords.js";
 import Textures from "./helpers/textures.js";
-import Lever from "./containers/lever.js";
+import Sounds from "./helpers/sounds.js";
+import Coords from "./helpers/coords.js";
 import TextHandler from "./helpers/textHandler.js";
 import SlotMachine from "./containers/slotMachine.js";
+import Reel from "./containers/reel.js";
+import Lever from "./containers/lever.js";
 
 const app = new PIXI.Application({
   backgroundColor: 0x1099bb,
@@ -16,6 +17,7 @@ export default app;
 document.body.appendChild(app.view);
 
 await Textures.loadTextures();
+await Sounds.loadSounds();
 
 let balance = 100;
 let stake = 5;
@@ -31,7 +33,7 @@ slotMachine.buttons.up.on("pointerup", (event) => {
 });
 
 slotMachine.buttons.down.on("pointerup", (event) => {
-  stake -= 5;
+  stake = Math.max(0, stake - 5);
   TextHandler.updateStake(stake);
 });
 

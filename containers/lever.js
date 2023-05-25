@@ -1,6 +1,7 @@
 import * as PIXI from "../pixi.mjs";
-import Textures from "../helpers/textures.js";
 import app from "../main.js";
+import Textures from "../helpers/textures.js";
+import Sounds from "../helpers/sounds.js";
 
 export default class Lever extends PIXI.Container {
   sprite;
@@ -8,12 +9,12 @@ export default class Lever extends PIXI.Container {
   isPulled;
   hitAreaCircle;
   static elapsedTime = 0;
-  static animTime = 500;
+  static animTime = 540;
   static extraFrameTime = 50;
+  static pullSound;
 
   constructor() {
     super();
-
     this.isPulled = false;
 
     this.sprite = new PIXI.Sprite(Textures.lever.initial);
@@ -44,6 +45,8 @@ export default class Lever extends PIXI.Container {
     this.showExtraFrame();
     this.sprite.texture = Textures.lever.pulled;
     app.ticker.add(Lever.animateLever, this);
+
+    Sounds.leverPull.play();
   }
 
   showExtraFrame() {

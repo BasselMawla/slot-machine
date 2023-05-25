@@ -1,6 +1,6 @@
 import * as PIXI from "../pixi.mjs";
-import Coords from "../helpers/coords.js";
 import Textures from "../helpers/textures.js";
+import Sounds from "../helpers/sounds.js";
 import Lever from "./lever.js";
 
 export default class SlotMachine extends PIXI.Container {
@@ -41,10 +41,12 @@ export default class SlotMachine extends PIXI.Container {
 
     downButton.on("pointerdown", (event) => {
       downButton.texture = Textures.arrows.down.pushed;
+      Sounds.buttonDown.play();
     });
 
     downButton.on("pointerup", (event) => {
       downButton.texture = Textures.arrows.down.initial;
+      Sounds.buttonUp.play();
     });
 
     this.sprite.addChild(downButton);
@@ -61,10 +63,12 @@ export default class SlotMachine extends PIXI.Container {
 
     upButton.on("pointerdown", (event) => {
       upButton.texture = Textures.arrows.up.pushed;
+      Sounds.buttonDown.play();
     });
 
     upButton.on("pointerup", (event) => {
       upButton.texture = Textures.arrows.up.initial;
+      Sounds.buttonUp.play();
     });
 
     this.sprite.addChild(upButton);
