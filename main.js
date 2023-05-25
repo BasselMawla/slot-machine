@@ -35,10 +35,7 @@ const reelsList = [
 TextHandler.init(balance);
 app.stage.addChild(TextHandler.balanceText);
 
-const lever = new Lever();
-slotMachine.sprite.addChild(lever);
-
-lever.on("pointerdown", (event) => {
+slotMachine.lever.on("pointerdown", (event) => {
   if (Lever.elapsedTime == 0) {
     isSpinning = false;
   }
@@ -69,7 +66,7 @@ async function spinMachine() {
       // TODO: Show this on the screen
       throw "An error occured! Your stake was refunded. Please try again.";
     }
-    lever.pullLever();
+    slotMachine.lever.pullLever();
     handleSpinResult(xmlResponse);
   } catch (err) {
     console.log();
