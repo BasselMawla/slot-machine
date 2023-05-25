@@ -1,4 +1,4 @@
-import * as PIXI from "./pixi.mjs";
+import * as PIXI from "../pixi.mjs";
 
 export default class TextHandler {
   static textStyle = new PIXI.TextStyle({

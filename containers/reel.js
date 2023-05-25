@@ -1,6 +1,6 @@
-import * as PIXI from "./pixi.mjs";
-import Coords from "./coords.js";
-import Textures from "./textures.js";
+import * as PIXI from "../pixi.mjs";
+import Coords from "../helpers/coords.js";
+import Textures from "../helpers/textures.js";
 
 export default class Reel extends PIXI.Container {
   symbols = [];

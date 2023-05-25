@@ -1,6 +1,6 @@
-import * as PIXI from "./pixi.mjs";
-import Textures from "./textures.js";
-import app from "./main.js";
+import * as PIXI from "../pixi.mjs";
+import Textures from "../helpers/textures.js";
+import app from "../main.js";
 
 export default class Lever extends PIXI.Container {
   leverSprite;

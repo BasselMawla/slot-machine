@@ -1,9 +1,9 @@
 import * as PIXI from "./pixi.mjs";
-import Reel from "./reel.js";
-import Coords from "./coords.js";
-import Textures from "./textures.js";
-import Lever from "./lever.js";
-import TextHandler from "./textHandler.js";
+import Reel from "./containers/reel.js";
+import Coords from "./helpers/coords.js";
+import Textures from "./helpers/textures.js";
+import Lever from "./containers/lever.js";
+import TextHandler from "./helpers/textHandler.js";
 
 const app = new PIXI.Application({
   backgroundColor: 0x1099bb,
