@@ -16,7 +16,7 @@ export default class Lever extends PIXI.Container {
 
     this.isPulled = false;
 
-    this.leverSprite = new PIXI.Sprite(Textures.leverInitial);
+    this.leverSprite = new PIXI.Sprite(Textures.lever.initial);
     this.leverSprite.anchor.set(0.5);
     // Make only the red handle of the lever interactable
     this.hitArea = new PIXI.Circle(311, 30, 48);
@@ -28,8 +28,8 @@ export default class Lever extends PIXI.Container {
     // Add an in between frame for the lever pulling animation.
     // A combination of both lever textures each with 0.5 alpha.
     this.extraFrameSprites = [
-      new PIXI.Sprite(Textures.leverInitial),
-      new PIXI.Sprite(Textures.leverPulled),
+      new PIXI.Sprite(Textures.lever.initial),
+      new PIXI.Sprite(Textures.lever.pulled),
     ];
     for (let i = 0; i < this.extraFrameSprites.length; i++) {
       this.extraFrameSprites[i].anchor.set(0.5);
@@ -42,7 +42,7 @@ export default class Lever extends PIXI.Container {
   // Start pulling the lever and show extra frame
   pullLever() {
     this.showExtraFrame();
-    this.leverSprite.texture = Textures.leverPulled;
+    this.leverSprite.texture = Textures.lever.pulled;
     app.ticker.add(Lever.animateLever, this);
   }
 
@@ -72,7 +72,7 @@ export default class Lever extends PIXI.Container {
     // Lever is returning. Show extra frame.
     else if (Lever.elapsedTime > Lever.animTime) {
       this.showExtraFrame();
-      this.leverSprite.texture = Textures.leverInitial;
+      this.leverSprite.texture = Textures.lever.initial;
     }
     // Lever is now pulled. Hide extra frame.
     else if (Lever.elapsedTime > Lever.extraFrameTime) {

@@ -13,9 +13,11 @@ export default class Textures {
 
     Textures.slotMachine = await PIXI.Assets.load("sprites/slot-machine.png");
 
-    Textures.leverInitial = await PIXI.Assets.load("sprites/lever-initial.png");
+    Textures.lever = {
+      initial: await PIXI.Assets.load("sprites/lever-initial.png"),
+      pulled: await PIXI.Assets.load("sprites/lever-pulled.png"),
+    };
 
-    Textures.leverPulled = await PIXI.Assets.load("sprites/lever-pulled.png");
   }
 
   static shuffledSymbols() {
