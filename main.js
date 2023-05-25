@@ -17,7 +17,7 @@ document.body.appendChild(app.view);
 await Textures.loadTextures();
 
 let balance = 100;
-let stake = 5;
+let stake = 20;
 let isSpinning = false;
 
 // Set up the slot machine sprite
@@ -46,7 +46,6 @@ app.stage.addChild(TextHandler.balanceText);
 const lever = new Lever();
 slotMachine.addChild(lever);
 
-lever.eventMode = "static";
 lever.on("pointerdown", (event) => {
   if (Lever.elapsedTime == 0) {
     isSpinning = false;
@@ -56,9 +55,7 @@ lever.on("pointerdown", (event) => {
 
 async function spinMachine() {
   // Already spinning
-  console.log(isSpinning);
   if (isSpinning) {
-    console.log("ALREADY SPINNING");
     return;
   }
   isSpinning = true;
@@ -116,7 +113,8 @@ function handleSpinResult(xmlResponse) {
 /* TODO:
   Add selectable stake
     Add buttons such as +1 +5 +10 +50 and Reset
-  Show current funds
+  --DONE-- Show current balance
+  Show congratulations message on winning, with the winnings. Then fade it out (lower alpha over time)
 
   Add spin animations
 

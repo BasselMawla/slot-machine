@@ -6,6 +6,7 @@ export default class Lever extends PIXI.Container {
   leverSprite;
   extraFrameSprites;
   isPulled;
+  hitAreaCircle;
   static elapsedTime = 0;
   static animTime = 500;
   static extraFrameTime = 50;
@@ -17,7 +18,12 @@ export default class Lever extends PIXI.Container {
 
     this.leverSprite = new PIXI.Sprite(Textures.leverInitial);
     this.leverSprite.anchor.set(0.5);
+    // Make only the red handle of the lever interactable
+    this.hitArea = new PIXI.Circle(311, 30, 48);
     this.addChild(this.leverSprite);
+
+    this.eventMode = "static";
+    this.cursor = "pointer";
 
     // Add an in between frame for the lever pulling animation.
     // A combination of both lever textures each with 0.5 alpha.

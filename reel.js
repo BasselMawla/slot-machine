@@ -12,6 +12,7 @@ export default class Reel extends PIXI.Container {
   constructor(xCoord, parent) {
     super();
     this.x = xCoord;
+    this.interactiveChildren = false;
 
     this.buildSymbols(Textures.shuffledSymbols());
 
