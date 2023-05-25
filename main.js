@@ -60,6 +60,9 @@ async function spinMachine() {
   }
   isSpinning = true;
   try {
+    if (stake > balance) {
+      throw "Sorry, your balance is too low to play at that stake. Try reducing it.";
+    }
     const apiResponse = await fetch("http://localhost:8888/serve", {
       method: "POST",
       headers: {
