@@ -37,7 +37,7 @@ export default class Reel extends PIXI.Container {
   // Create a mask for the reel to hide the sections outside the visible reel window
   createReelMask() {
     const reelBounds = new PIXI.Graphics();
-    reelBounds.beginFill();
+    reelBounds.beginFill(0, 1);
     reelBounds.drawRect(
       this.x - this.width / 2,
       this.y - this.height / 2 + 101,

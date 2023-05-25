@@ -9,6 +9,8 @@ const app = new PIXI.Application({
   width: window.innerWidth,
   height: window.innerHeight,
 });
+export default app;
+
 document.body.appendChild(app.view);
 
 await Textures.loadTextures();
@@ -59,7 +61,7 @@ async function spinMachine() {
     if (xmlResponse.charAt(0) != "<") {
       throw "An error occured! Your stake was refunded. Please try again.";
     }
-    lever.toggleLever();
+    lever.pullLever();
     handleSpinResult(xmlResponse);
   } catch (err) {
     console.log();
