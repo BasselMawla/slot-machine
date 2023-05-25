@@ -17,6 +17,7 @@ await Textures.loadTextures();
 
 let balance = 100;
 let stake = 5;
+let isSpinning = false;
 
 // Set up the background slot machine sprite
 const slotMachine = new PIXI.Sprite(Textures.slotMachine);
@@ -43,10 +44,20 @@ slotMachine.addChild(lever);
 
 lever.eventMode = "static";
 lever.on("pointerdown", (event) => {
+  if (Lever.elapsedTime == 0) {
+    isSpinning = false;
+  }
   spinMachine();
 });
 
 async function spinMachine() {
+  // Already spinning
+  console.log(isSpinning);
+  if (isSpinning) {
+    console.log("ALREADY SPINNING");
+    return;
+  }
+  isSpinning = true;
   try {
     const apiResponse = await fetch("http://localhost:8888/serve", {
       method: "POST",
@@ -67,10 +78,6 @@ async function spinMachine() {
     console.log();
     console.log(err);
   }
-
-  /*reelsList.forEach((reel) => {
-    reel.spinReel();
-  });*/
 }
 
 function handleSpinResult(xmlResponse) {
@@ -103,8 +110,6 @@ function handleSpinResult(xmlResponse) {
 }
 
 /* TODO:
-  Add lever animation
-
   Add selectable stake
     Add buttons such as +1 +5 +10 +50 and Reset
   Show current funds
