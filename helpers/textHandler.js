@@ -3,6 +3,7 @@ import * as PIXI from "../pixi.min.mjs";
 export default class TextHandler {
   static balanceText;
   static stakeText;
+  static winningsText;
 
   static textStyle = new PIXI.TextStyle({
     fontFamily: "Arial",
@@ -30,8 +31,15 @@ export default class TextHandler {
       "Stake:\n£" + stake,
       TextHandler.textStyle
     );
-    TextHandler.stakeText.x = -10;
+    TextHandler.stakeText.x = -12;
     TextHandler.stakeText.y = 170;
+
+    TextHandler.winningsText = new PIXI.Text(
+      "Won:\n£" + 0,
+      TextHandler.textStyle
+    );
+    TextHandler.winningsText.x = 146;
+    TextHandler.winningsText.y = 170;
   }
 
   static updateBalance(balance) {
@@ -40,5 +48,9 @@ export default class TextHandler {
 
   static updateStake(stake) {
     TextHandler.stakeText.text = "Stake:\n£" + stake;
+  }
+
+  static updateWinnings(totalWinnings) {
+    TextHandler.winningsText.text = "Won:\n£" + totalWinnings;
   }
 }

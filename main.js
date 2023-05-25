@@ -21,6 +21,7 @@ await Sounds.loadSounds();
 
 let balance = 100;
 let stake = 5;
+let totalWinnings = 0;
 let isSpinning = false;
 
 // Set up the slot machine sprite
@@ -48,6 +49,7 @@ const reelsList = [
 TextHandler.init(balance, stake);
 slotMachine.sprite.addChild(TextHandler.balanceText);
 slotMachine.sprite.addChild(TextHandler.stakeText);
+slotMachine.sprite.addChild(TextHandler.winningsText);
 
 slotMachine.lever.on("pointerdown", (event) => {
   // elapsedTime is reset to 0 when lever animation is finished
@@ -78,7 +80,6 @@ async function spinMachine() {
     const xmlResponse = await apiResponse.text();
     // Not proper XML, an error occured
     if (xmlResponse.charAt(0) != "<") {
-      // TODO: Show this on the screen
       throw "An error occured! Your stake was refunded. Please try again.";
     }
     slotMachine.lever.pullLever();
@@ -95,16 +96,19 @@ function handleSpinResult(xmlResponse) {
     parsedResponse = new DOMParser().parseFromString(xmlResponse, "text/xml");
     const result = parsedResponse.getElementsByTagName("Response")[0];
 
-    balance = result.getAttribute("balance");
-    const winnings = result.getAttribute("win");
+    balance = Number(result.getAttribute("balance"));
+    const winnings = Number(result.getAttribute("win"));
+    totalWinnings += winnings;
 
     console.log();
     console.log("You bet: £" + stake);
     if (winnings > 0) {
+      // TODO: Show this on as temporary text on the screen
       console.log("Congratulations! You won £" + winnings + "!");
     }
     console.log("Your new balance is: £" + balance);
     TextHandler.updateBalance(balance);
+    TextHandler.updateWinnings(totalWinnings);
 
     const gridList = result.getElementsByTagName("SymbolGrid");
     for (let i = 0; i < gridList.length; i++) {
@@ -118,13 +122,6 @@ function handleSpinResult(xmlResponse) {
 }
 
 /* TODO:
-  Add selectable stake
-    Add buttons such as +1 +5 +10 +50 and Reset
-  --DONE-- Show current balance
-  Show congratulations message on winning, with the winnings. Then fade it out (lower alpha over time)
-
-  Add spin animations
-
-  Make only the lever clickable, not the whole screen
+  Add spin animations + sounds
   More error checking
 */
