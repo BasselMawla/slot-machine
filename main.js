@@ -18,12 +18,22 @@ document.body.appendChild(app.view);
 await Textures.loadTextures();
 
 let balance = 100;
-let stake = 20;
+let stake = 5;
 let isSpinning = false;
 
 // Set up the slot machine sprite
 const slotMachine = new SlotMachine(app.screen.width, app.screen.height);
 app.stage.addChild(slotMachine);
+
+slotMachine.buttons.up.on("pointerup", (event) => {
+  stake += 5;
+  TextHandler.updateStake(stake);
+});
+
+slotMachine.buttons.down.on("pointerup", (event) => {
+  stake -= 5;
+  TextHandler.updateStake(stake);
+});
 
 // Create the three reels
 const reelsList = [
@@ -32,10 +42,13 @@ const reelsList = [
   new Reel(Coords.reelCoords.xRight, slotMachine.sprite),
 ];
 
-TextHandler.init(balance);
+// Add text
+TextHandler.init(balance, stake, app.screen.width, app.screen.height);
 app.stage.addChild(TextHandler.balanceText);
+app.stage.addChild(TextHandler.stakeText);
 
 slotMachine.lever.on("pointerdown", (event) => {
+  // elapsedTime is reset to 0 when lever animation is finished
   if (Lever.elapsedTime == 0) {
     isSpinning = false;
   }

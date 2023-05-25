@@ -29,5 +29,49 @@ export default class SlotMachine extends PIXI.Container {
     this.sprite.addChild(this.lever);
 
     // Stake buttons
+    // Decrease stake button
+    const downButton = new PIXI.Sprite(Textures.arrows.down.initial);
+    downButton.anchor.set(0.5);
+    downButton.x = -60;
+    downButton.y = 197;
+    downButton.scale.set(1.5, 1.5);
+
+    downButton.eventMode = "static";
+    downButton.cursor = "pointer";
+
+    downButton.on("pointerdown", (event) => {
+      downButton.texture = Textures.arrows.down.pushed;
+    });
+
+    downButton.on("pointerup", (event) => {
+      downButton.texture = Textures.arrows.down.initial;
+    });
+
+    this.sprite.addChild(downButton);
+
+    // Increase stake button
+    const upButton = new PIXI.Sprite(Textures.arrows.up.initial);
+    upButton.anchor.set(0.5);
+    upButton.x = 105;
+    upButton.y = 202;
+    upButton.scale.set(1.5, 1.5);
+
+    upButton.eventMode = "static";
+    upButton.cursor = "pointer";
+
+    upButton.on("pointerdown", (event) => {
+      upButton.texture = Textures.arrows.up.pushed;
+    });
+
+    upButton.on("pointerup", (event) => {
+      upButton.texture = Textures.arrows.up.initial;
+    });
+
+    this.sprite.addChild(upButton);
+
+    this.buttons = {
+      down: downButton,
+      up: upButton,
+    };
   }
 }

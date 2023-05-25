@@ -1,9 +1,12 @@
 import * as PIXI from "../pixi.mjs";
 
 export default class TextHandler {
+  static balanceText;
+  static stakeText;
+
   static textStyle = new PIXI.TextStyle({
     fontFamily: "Arial",
-    fontSize: 32,
+    fontSize: 36,
     fontWeight: "bold",
     fill: "lightGray",
     stroke: "black",
@@ -15,18 +18,27 @@ export default class TextHandler {
     align: "center",
   });
 
-  static balanceText;
-
-  static updateBalance(balance) {
-    TextHandler.balanceText.text = "Balance:\n£" + balance;
-  }
-
-  static init(balance) {
+  static init(balance, stake, screenWidth, screenHeight) {
     TextHandler.balanceText = new PIXI.Text(
       "Balance:\n£" + balance,
       TextHandler.textStyle
     );
     TextHandler.balanceText.x = 80;
     TextHandler.balanceText.y = 20;
+
+    TextHandler.stakeText = new PIXI.Text(
+      "Stake:\n£" + stake,
+      TextHandler.textStyle
+    );
+    TextHandler.stakeText.x = screenWidth / 2 - 9;
+    TextHandler.stakeText.y = (3 * screenHeight) / 4 + 30;
+  }
+
+  static updateBalance(balance) {
+    TextHandler.balanceText.text = "Balance:\n£" + balance;
+  }
+
+  static updateStake(stake) {
+    TextHandler.stakeText.text = "Stake:\n£" + stake;
   }
 }
