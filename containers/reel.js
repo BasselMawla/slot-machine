@@ -6,7 +6,6 @@ export default class Reel extends PIXI.Container {
   symbols = [];
 
   /* xCoord: x coordinate of the reel
-     symbolTextures: array of the textures of the 3 symbols in the reel
      parent: parent to which to attach this reel
   */
   constructor(xCoord, parent) {
@@ -41,13 +40,19 @@ export default class Reel extends PIXI.Container {
     reelBounds.beginFill(0, 1);
     reelBounds.drawRect(
       this.x - this.width / 2,
-      this.y - this.height / 2 + 101,
+      this.y - this.height / 2 + Coords.symbolDiff * 1.35,
       this.width,
-      this.height - 124
+      this.height - 2 * Coords.symbolDiff - 2
     );
     reelBounds.endFill();
 
     return reelBounds;
+  }
+
+  spin() {
+    for (let i = 0; i < this.symbols.length; i++) {
+      this.symbols[i];
+    }
   }
 
   reorder(reelOrderArray) {
@@ -55,15 +60,6 @@ export default class Reel extends PIXI.Container {
       this.symbols[i].texture = Textures.symbols[reelOrderArray[i]];
     }
   }
-
-  /*spinReel() {
-    this.swapChildren(
-      this.getChildAt(Math.floor(Math.random() * 3)),
-      this.getChildAt(Math.floor(Math.random() * 3))
-    );
-
-    this.setSymbolsYCoords(this.children);
-  }*/
 
   // Set the symbols position depending on where they should appear
   setSymbolsYCoords(symbolSprites) {
