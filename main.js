@@ -43,9 +43,9 @@ const reelsList = [
 ];
 
 // Add text
-TextHandler.init(balance, stake, app.screen.width, app.screen.height);
-app.stage.addChild(TextHandler.balanceText);
-app.stage.addChild(TextHandler.stakeText);
+TextHandler.init(balance, stake);
+slotMachine.sprite.addChild(TextHandler.balanceText);
+slotMachine.sprite.addChild(TextHandler.stakeText);
 
 slotMachine.lever.on("pointerdown", (event) => {
   // elapsedTime is reset to 0 when lever animation is finished

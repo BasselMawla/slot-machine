@@ -6,11 +6,11 @@ export default class TextHandler {
 
   static textStyle = new PIXI.TextStyle({
     fontFamily: "Arial",
-    fontSize: 36,
+    fontSize: 22,
     fontWeight: "bold",
     fill: "lightGray",
     stroke: "black",
-    strokeThickness: 5,
+    strokeThickness: 3,
     dropShadow: true,
     dropShadowColor: "black",
     dropShadowBlur: 4,
@@ -18,20 +18,20 @@ export default class TextHandler {
     align: "center",
   });
 
-  static init(balance, stake, screenWidth, screenHeight) {
+  static init(balance, stake) {
     TextHandler.balanceText = new PIXI.Text(
-      "Balance:\n£" + balance,
+      "Balance:\n£" + balance + ".00",
       TextHandler.textStyle
     );
-    TextHandler.balanceText.x = 80;
-    TextHandler.balanceText.y = 20;
+    TextHandler.balanceText.x = -197;
+    TextHandler.balanceText.y = 170;
 
     TextHandler.stakeText = new PIXI.Text(
       "Stake:\n£" + stake,
       TextHandler.textStyle
     );
-    TextHandler.stakeText.x = screenWidth / 2 - 9;
-    TextHandler.stakeText.y = (3 * screenHeight) / 4 + 30;
+    TextHandler.stakeText.x = -10;
+    TextHandler.stakeText.y = 170;
   }
 
   static updateBalance(balance) {
