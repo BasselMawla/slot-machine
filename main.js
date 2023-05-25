@@ -123,5 +123,5 @@ function handleSpinResult(xmlResponse) {
 
 /* TODO:
   Add spin animations + sounds
-  More error checking
+  Show error texts to the player
 */
